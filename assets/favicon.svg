@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="autopart.guru">
+  <rect width="32" height="32" rx="7" fill="#D90000"/>
+  <g transform="translate(1.5 5.5) scale(0.0485)">
+    <path d="M160 249.2 L340 190 L650 292 L600 292 L340 220 L190 292 Z" fill="#FFFFFF"/>
+    <path d="M190 292 L340 220 L600 292 L588 292 L340 227 L200 292 Z" fill="#D6D9DD"/>
+    <path d="M190 300 A46 46 0 0 0 272.8 300 Z" fill="#111"/>
+    <path d="M515 300 A46 46 0 0 0 597.8 300 Z" fill="#111"/>
+  </g>
+</svg>

@@ -5,17 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Catálogo y buscador de refacciones automotrices para el mercado mexicano. Compatibilidad por año, marca, modelo y equivalencias OEM/aftermarket.">
   <title>autopart.guru — Refacciones con compatibilidad exacta</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/favicon.svg">
   <style>
     :root {
+      --brand-red: #D90000;
       --bg: #0c1118;
       --bg-elevated: #141c27;
       --bg-card: #1a2433;
       --border: #2a3648;
       --text: #eef2f7;
       --text-muted: #9aa8bc;
-      --accent: #f97316;
-      --accent-hover: #fb923c;
-      --accent-soft: rgba(249, 115, 22, 0.15);
+      --accent: #D90000;
+      --accent-hover: #ff1a1a;
+      --accent-soft: rgba(217, 0, 0, 0.18);
       --success: #34d399;
       --radius: 12px;
       --radius-sm: 8px;
@@ -47,6 +50,18 @@
     }
     .skip-link:focus { left: 1rem; top: 1rem; }
 
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
     header {
       position: sticky;
       top: 0;
@@ -67,25 +82,25 @@
     .logo {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
       text-decoration: none;
-      color: var(--text);
-      font-weight: 700;
-      font-size: 1.125rem;
-      letter-spacing: -0.02em;
+      flex-shrink: 0;
     }
-    .logo-mark {
-      width: 2rem;
-      height: 2rem;
-      border-radius: var(--radius-sm);
-      background: linear-gradient(135deg, var(--accent), #ea580c);
-      display: grid;
-      place-items: center;
-      font-size: 0.75rem;
-      color: #111;
-      font-weight: 800;
+    .logo object,
+    .hero-logo object {
+      display: block;
+      pointer-events: none;
+      border: 0;
     }
-    .logo span { color: var(--accent); }
+    .logo--header object {
+      height: 2.35rem;
+      width: 6.75rem;
+    }
+    @media (min-width: 768px) {
+      .logo--header object {
+        height: 2.65rem;
+        width: 7.5rem;
+      }
+    }
     nav a {
       color: var(--text-muted);
       text-decoration: none;
@@ -106,12 +121,27 @@
     main { padding-bottom: 3rem; }
 
     .hero {
-      padding: 2rem 1.25rem 2.5rem;
+      padding: 1.25rem 1.25rem 2.5rem;
       background:
-        radial-gradient(ellipse 80% 60% at 50% -20%, rgba(249, 115, 22, 0.22), transparent),
+        radial-gradient(ellipse 90% 55% at 50% -15%, rgba(217, 0, 0, 0.28), transparent),
         var(--bg);
     }
     .hero-inner { max-width: var(--max); margin: 0 auto; }
+    .hero-logo {
+      margin: 0 auto 1.25rem;
+      max-width: min(100%, 680px);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(217, 0, 0, 0.35), var(--shadow);
+      line-height: 0;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .hero-logo object {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 680 / 240;
+      min-height: 108px;
+    }
     .badge-sample {
       display: inline-flex;
       align-items: center;
@@ -207,7 +237,7 @@
     }
     .btn-primary {
       background: var(--accent);
-      color: #111;
+      color: #fff;
       flex: 1;
       min-width: 140px;
     }
@@ -458,7 +488,7 @@
     .cta-inner a {
       display: inline-block;
       background: var(--accent);
-      color: #111;
+      color: #fff;
       font-weight: 700;
       text-decoration: none;
       padding: 0.75rem 1.5rem;
@@ -482,9 +512,9 @@
 
   <header>
     <div class="header-inner">
-      <a class="logo" href="/" aria-label="autopart.guru inicio">
-        <span class="logo-mark" aria-hidden="true">ap</span>
-        autopart<span>.guru</span>
+      <a class="logo logo--header" href="/" aria-label="autopart.guru — inicio">
+        <object type="image/svg+xml" data="assets/logo-animado.svg" aria-hidden="true" tabindex="-1">autopart.guru</object>
+        <span class="sr-only">autopart.guru</span>
       </a>
       <nav class="nav-desktop" aria-label="Principal">
         <a href="#buscar">Buscar</a>
@@ -499,6 +529,9 @@
   <main>
     <section class="hero" id="buscar" aria-labelledby="hero-title">
       <div class="hero-inner">
+        <div class="hero-logo" aria-hidden="true">
+          <object type="image/svg+xml" data="assets/logo-animado.svg" tabindex="-1">Logo animado autopart.guru</object>
+        </div>
         <p class="badge-sample" role="status">Datos de muestra — demostración</p>
         <h1 id="hero-title">La refacción correcta para tu auto en México</h1>
         <p class="hero-lead">Elige año, marca, modelo y versión; indica el tipo de pieza o busca por número OEM o aftermarket con equivalencias cruzadas.</p>
