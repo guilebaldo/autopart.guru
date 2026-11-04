@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 140 680 240" width="680" height="240">
+  <style>
+    .car{animation:bounce .6s ease-in-out infinite;transform-origin:center}
+    .sl line{animation:dash 0.9s linear infinite}
+    .sl line:nth-child(2){animation-delay:.2s}.sl line:nth-child(3){animation-delay:.45s}.sl line:nth-child(4){animation-delay:.65s}
+    .floor{animation:floor .9s linear infinite}
+    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+    @keyframes dash{0%{transform:translateX(30px);opacity:0}25%{opacity:1}100%{transform:translateX(-40px);opacity:0}}
+    @keyframes floor{0%,100%{opacity:1}50%{opacity:.7}}
+    @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+  </style>
+  <rect x="0" y="140" width="680" height="240" fill="#D90000"/>
+  <rect class="floor" x="120" y="326" width="510" height="8" rx="4" fill="#A30000"/>
+  <g class="sl" stroke-linecap="round">
+    <line x1="18" y1="236" x2="78" y2="236" stroke="#A30000" stroke-width="7"/>
+    <line x1="38" y1="258" x2="98" y2="258" stroke="#FFFFFF" stroke-width="7"/>
+    <line x1="8" y1="280" x2="88" y2="280" stroke="#A30000" stroke-width="7"/>
+    <line x1="48" y1="302" x2="110" y2="302" stroke="#FFFFFF" stroke-width="5"/>
+  </g>
+  <g transform="translate(-45 0)"><g class="car">
+    <g transform="translate(8 10)" fill="#A30000">
+      <path d="M160 249.2 L340 190 L650 292 L600 292 L340 220 L190 292 Z"/>
+      <path d="M470 256 L437.5 247 L324 247 L318.5 256 Z"/>
+    </g>
+    <path d="M160 249.2 L340 190 L650 292 L600 292 L340 220 L190 292 Z" fill="#FFFFFF"/>
+    <path d="M190 292 L340 220 L600 292 L588 292 L340 227 L200 292 Z" fill="#D6D9DD"/>
+    <path d="M160 249.2 L340 190 L650 292 L640 292 L340 197 L166 252 Z" fill="#FFFFFF"/>
+    <path d="M470 256 L437.5 247 L324 247 L318.5 256 Z" fill="#FFFFFF"/>
+    <path d="M470 256 L465 254.5 L322 254.5 L318.5 256 Z" fill="#D6D9DD"/>
+    <path d="M190 300 A46 46 0 0 0 272.8 300 Z" fill="#111"/>
+    <path d="M515 300 A46 46 0 0 0 597.8 300 Z" fill="#111"/>
+    <path d="M210 300 A26 26 0 0 0 252.8 300 Z" fill="#3A3A3A"/>
+    <path d="M535 300 A26 26 0 0 0 577.8 300 Z" fill="#3A3A3A"/>
+  </g>
+</g></svg>
