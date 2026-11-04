@@ -6,7 +6,8 @@
   <meta name="description" content="Catálogo y buscador de refacciones automotrices para el mercado mexicano. Compatibilidad por año, marca, modelo y equivalencias OEM/aftermarket.">
   <title>autopart.guru — Refacciones con compatibilidad exacta</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="assets/favicon.svg">
+  <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <style>
     :root {
       /* Logo palette */
@@ -105,12 +106,12 @@
     }
     .logo--header object {
       height: 2.35rem;
-      width: 6.75rem;
+      width: 9.75rem;
     }
     @media (min-width: 768px) {
       .logo--header object {
         height: 2.65rem;
-        width: 7.5rem;
+        width: 11rem;
       }
     }
     nav a {
@@ -143,11 +144,8 @@
     .hero-logo {
       margin: 0 auto 1.25rem;
       max-width: min(100%, 680px);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow-red), var(--shadow);
       line-height: 0;
-      border: 2px solid var(--red-dark);
+      filter: drop-shadow(0 16px 28px rgba(163, 0, 0, 0.45));
     }
     .hero-logo object {
       width: 100%;
@@ -191,6 +189,16 @@
       border-radius: var(--radius);
       padding: 1.25rem;
       box-shadow: var(--shadow-red), var(--shadow);
+    }
+    .search-panel-brand {
+      margin: 0 0 1rem;
+      line-height: 0;
+    }
+    .search-panel-brand object {
+      display: block;
+      height: 2rem;
+      width: 8.5rem;
+      pointer-events: none;
     }
     .search-panel h2 {
       font-size: 1rem;
@@ -549,6 +557,19 @@
       text-align: center;
       box-shadow: var(--shadow-red);
     }
+    .cta-logo {
+      margin: 0 auto 1rem;
+      max-width: min(100%, 420px);
+      line-height: 0;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+    .cta-logo object {
+      display: block;
+      width: 100%;
+      aspect-ratio: 680 / 240;
+      pointer-events: none;
+    }
     .cta-inner h2 { margin: 0 0 0.5rem; font-size: 1.375rem; color: var(--white); }
     .cta-inner p {
       color: var(--gray-light);
@@ -598,7 +619,7 @@
   <header>
     <div class="header-inner">
       <a class="logo logo--header" href="/" aria-label="autopart.guru — inicio">
-        <object type="image/svg+xml" data="assets/logo-animado.svg" aria-hidden="true" tabindex="-1">autopart.guru</object>
+        <object type="image/svg+xml" data="assets/logo-navbar.svg" aria-hidden="true" tabindex="-1">autopart.guru</object>
         <span class="sr-only">autopart.guru</span>
       </a>
       <nav class="nav-desktop" aria-label="Principal">
@@ -615,13 +636,16 @@
     <section class="hero" id="buscar" aria-labelledby="hero-title">
       <div class="hero-inner">
         <div class="hero-logo" aria-hidden="true">
-          <object type="image/svg+xml" data="assets/logo-animado.svg" tabindex="-1">Logo animado autopart.guru</object>
+          <object type="image/svg+xml" data="assets/logo-animado-dark.svg" tabindex="-1">Logo animado autopart.guru</object>
         </div>
         <p class="badge-sample" role="status">Datos de muestra — demostración</p>
         <h1 id="hero-title">La refacción correcta para tu auto en México</h1>
         <p class="hero-lead">Elige año, marca, modelo y versión; indica el tipo de pieza o busca por número OEM o aftermarket con equivalencias cruzadas.</p>
 
         <div class="search-panel" role="search" aria-label="Buscador de refacciones">
+          <div class="search-panel-brand" aria-hidden="true">
+            <object type="image/svg+xml" data="assets/logo-light.svg" tabindex="-1">autopart.guru</object>
+          </div>
           <h2>Buscar por vehículo</h2>
           <form id="vehicle-search-form">
             <div class="field-grid field-grid--vehicle">
@@ -741,6 +765,9 @@
 
     <div class="cta-band" id="proveedores">
       <div class="cta-inner">
+        <div class="cta-logo" aria-hidden="true">
+          <object type="image/svg+xml" data="assets/logo-animado-red.svg" tabindex="-1">autopart.guru</object>
+        </div>
         <h2>¿Eres refaccionaria o proveedor?</h2>
         <p>Próximamente podrás cargar tu catálogo con fotos, aplicaciones y números de intercambio para aparecer en autopart.guru.</p>
         <a href="mailto:hola@autopart.guru?subject=Listar%20cat%C3%A1logo">Quiero listar mi catálogo</a>
