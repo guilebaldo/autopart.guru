@@ -1,1 +1,1093 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Catálogo y buscador de refacciones automotrices para el mercado mexicano. Compatibilidad por año, marca, modelo y equivalencias OEM/aftermarket.">
+  <title>autopart.guru — Refacciones con compatibilidad exacta</title>
+  <style>
+    :root {
+      --bg: #0c1118;
+      --bg-elevated: #141c27;
+      --bg-card: #1a2433;
+      --border: #2a3648;
+      --text: #eef2f7;
+      --text-muted: #9aa8bc;
+      --accent: #f97316;
+      --accent-hover: #fb923c;
+      --accent-soft: rgba(249, 115, 22, 0.15);
+      --success: #34d399;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+      --font: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      --max: 1120px;
+    }
 
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      background: var(--accent);
+      color: #111;
+      padding: 0.75rem 1rem;
+      z-index: 100;
+      font-weight: 600;
+    }
+    .skip-link:focus { left: 1rem; top: 1rem; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(12, 17, 24, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .header-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0.875rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 1.125rem;
+      letter-spacing: -0.02em;
+    }
+    .logo-mark {
+      width: 2rem;
+      height: 2rem;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--accent), #ea580c);
+      display: grid;
+      place-items: center;
+      font-size: 0.75rem;
+      color: #111;
+      font-weight: 800;
+    }
+    .logo span { color: var(--accent); }
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      padding: 0.5rem 0.75rem;
+      border-radius: var(--radius-sm);
+    }
+    nav a:hover, nav a:focus-visible {
+      color: var(--text);
+      background: var(--bg-elevated);
+      outline: none;
+    }
+    .nav-desktop { display: none; gap: 0.25rem; }
+    @media (min-width: 768px) {
+      .nav-desktop { display: flex; }
+    }
+
+    main { padding-bottom: 3rem; }
+
+    .hero {
+      padding: 2rem 1.25rem 2.5rem;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% -20%, rgba(249, 115, 22, 0.22), transparent),
+        var(--bg);
+    }
+    .hero-inner { max-width: var(--max); margin: 0 auto; }
+    .badge-sample {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border: 1px solid rgba(249, 115, 22, 0.35);
+      padding: 0.35rem 0.65rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-size: clamp(1.75rem, 5vw, 2.75rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin: 0 0 0.75rem;
+      max-width: 18ch;
+    }
+    .hero-lead {
+      color: var(--text-muted);
+      font-size: 1.0625rem;
+      max-width: 42ch;
+      margin: 0 0 1.75rem;
+    }
+
+    .search-panel {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+    }
+    .search-panel h2 {
+      font-size: 1rem;
+      margin: 0 0 1rem;
+      font-weight: 600;
+    }
+    .field-grid {
+      display: grid;
+      gap: 0.875rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 640px) {
+      .field-grid--vehicle { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 900px) {
+      .field-grid--vehicle { grid-template-columns: repeat(4, 1fr); }
+    }
+    label {
+      display: block;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+      color: var(--text-muted);
+    }
+    select, input[type="search"], input[type="text"] {
+      width: 100%;
+      padding: 0.65rem 0.75rem;
+      font-size: 1rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text);
+      font-family: inherit;
+    }
+    select:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+    select:focus-visible, input:focus-visible, button:focus-visible, a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .field-full { grid-column: 1 / -1; }
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.7rem 1.25rem;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #111;
+      flex: 1;
+      min-width: 140px;
+    }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { background: var(--bg-card); }
+
+    .divider {
+      margin: 1.25rem 0;
+      border: 0;
+      border-top: 1px solid var(--border);
+    }
+    .part-search-row {
+      display: grid;
+      gap: 0.875rem;
+    }
+    @media (min-width: 640px) {
+      .part-search-row { grid-template-columns: 1fr auto; align-items: end; }
+    }
+
+    .results-section {
+      max-width: var(--max);
+      margin: 2rem auto 0;
+      padding: 0 1.25rem;
+    }
+    .results-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .results-header h2 { font-size: 1.25rem; margin: 0; }
+    .results-count { color: var(--text-muted); font-size: 0.875rem; }
+    .results-empty {
+      padding: 2rem 1.25rem;
+      text-align: center;
+      color: var(--text-muted);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      background: var(--bg-elevated);
+    }
+    .results-grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 640px) {
+      .results-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 960px) {
+      .results-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .part-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .part-card__media {
+      aspect-ratio: 4 / 3;
+      background: linear-gradient(145deg, #243044, #1a2433);
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+    .part-card__media svg { width: 48%; max-width: 120px; opacity: 0.45; }
+    .part-card__media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+    .part-card__media.has-photo img { display: block; }
+    .part-card__media.has-photo svg { display: none; }
+    .part-card__body { padding: 1rem; flex: 1; display: flex; flex-direction: column; gap: 0.5rem; }
+    .part-card__brand {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+    }
+    .part-card__sku {
+      font-family: ui-monospace, "Cascadia Code", monospace;
+      font-size: 0.9375rem;
+      font-weight: 600;
+    }
+    .part-card__name { font-size: 0.9375rem; margin: 0; }
+    .part-card__fitment {
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+    .equiv-list {
+      list-style: none;
+      padding: 0;
+      margin: 0.5rem 0 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+    .equiv-list li {
+      font-size: 0.6875rem;
+      font-family: ui-monospace, monospace;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.45rem;
+      border-radius: 4px;
+      color: var(--text-muted);
+    }
+    .equiv-list li[data-kind="oem"] { border-color: rgba(52, 211, 153, 0.4); color: #6ee7b7; }
+
+    section.block {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 3rem 1.25rem;
+    }
+    section.block h2 {
+      font-size: clamp(1.375rem, 3vw, 1.75rem);
+      letter-spacing: -0.02em;
+      margin: 0 0 0.5rem;
+    }
+    .section-lead {
+      color: var(--text-muted);
+      margin: 0 0 2rem;
+      max-width: 55ch;
+    }
+
+    .features {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 768px) {
+      .features { grid-template-columns: repeat(3, 1fr); }
+    }
+    .feature {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+    }
+    .feature-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: var(--radius-sm);
+      background: var(--accent-soft);
+      display: grid;
+      place-items: center;
+      margin-bottom: 0.75rem;
+      font-size: 1.25rem;
+    }
+    .feature h3 { margin: 0 0 0.35rem; font-size: 1.0625rem; }
+    .feature p { margin: 0; font-size: 0.9375rem; color: var(--text-muted); }
+
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+    @media (min-width: 640px) {
+      .cat-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    .cat-tile {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+      padding: 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.15s, background 0.15s;
+      min-height: 5rem;
+    }
+    .cat-tile:hover, .cat-tile:focus-visible {
+      border-color: var(--accent);
+      background: var(--bg-elevated);
+      outline: none;
+    }
+    .cat-tile strong { font-size: 0.9375rem; }
+    .cat-tile span { font-size: 0.75rem; color: var(--text-muted); }
+
+    .steps {
+      display: grid;
+      gap: 1.25rem;
+      counter-reset: step;
+    }
+    @media (min-width: 768px) {
+      .steps { grid-template-columns: repeat(3, 1fr); }
+    }
+    .step {
+      position: relative;
+      padding: 1.25rem 1.25rem 1.25rem 3.5rem;
+      background: var(--bg-elevated);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      left: 1rem;
+      top: 1.25rem;
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #111;
+      font-weight: 800;
+      font-size: 0.875rem;
+      display: grid;
+      place-items: center;
+    }
+    .step h3 { margin: 0 0 0.35rem; font-size: 1rem; }
+    .step p { margin: 0; font-size: 0.9375rem; color: var(--text-muted); }
+
+    .cta-band {
+      max-width: var(--max);
+      margin: 0 auto 3rem;
+      padding: 0 1.25rem;
+    }
+    .cta-inner {
+      background: linear-gradient(135deg, #1e293b, #141c27);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+    .cta-inner h2 { margin: 0 0 0.5rem; font-size: 1.375rem; }
+    .cta-inner p {
+      color: var(--text-muted);
+      margin: 0 auto 1.25rem;
+      max-width: 40ch;
+      font-size: 0.9375rem;
+    }
+    .cta-inner a {
+      display: inline-block;
+      background: var(--accent);
+      color: #111;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-sm);
+    }
+    .cta-inner a:hover { background: var(--accent-hover); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 1.25rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.8125rem;
+    }
+    footer p { margin: 0.35rem 0; }
+    footer a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#buscar">Ir al buscador</a>
+
+  <header>
+    <div class="header-inner">
+      <a class="logo" href="/" aria-label="autopart.guru inicio">
+        <span class="logo-mark" aria-hidden="true">ap</span>
+        autopart<span>.guru</span>
+      </a>
+      <nav class="nav-desktop" aria-label="Principal">
+        <a href="#buscar">Buscar</a>
+        <a href="#por-que">Por qué</a>
+        <a href="#categorias">Categorías</a>
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#proveedores">Proveedores</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="buscar" aria-labelledby="hero-title">
+      <div class="hero-inner">
+        <p class="badge-sample" role="status">Datos de muestra — demostración</p>
+        <h1 id="hero-title">La refacción correcta para tu auto en México</h1>
+        <p class="hero-lead">Elige año, marca, modelo y versión; indica el tipo de pieza o busca por número OEM o aftermarket con equivalencias cruzadas.</p>
+
+        <div class="search-panel" role="search" aria-label="Buscador de refacciones">
+          <h2>Buscar por vehículo</h2>
+          <form id="vehicle-search-form">
+            <div class="field-grid field-grid--vehicle">
+              <div>
+                <label for="sel-year">Año</label>
+                <select id="sel-year" name="year" required>
+                  <option value="">Selecciona año</option>
+                </select>
+              </div>
+              <div>
+                <label for="sel-make">Marca</label>
+                <select id="sel-make" name="make" disabled required>
+                  <option value="">Marca</option>
+                </select>
+              </div>
+              <div>
+                <label for="sel-model">Modelo</label>
+                <select id="sel-model" name="model" disabled required>
+                  <option value="">Modelo</option>
+                </select>
+              </div>
+              <div>
+                <label for="sel-version">Versión</label>
+                <select id="sel-version" name="version" disabled required>
+                  <option value="">Versión / motor</option>
+                </select>
+              </div>
+              <div class="field-full">
+                <label for="sel-part-type">Tipo de refacción</label>
+                <select id="sel-part-type" name="partType" required>
+                  <option value="">Tipo de pieza</option>
+                </select>
+              </div>
+            </div>
+            <div class="btn-row">
+              <button type="submit" class="btn-primary">Buscar refacciones</button>
+              <button type="button" class="btn-secondary" id="btn-clear-vehicle">Limpiar</button>
+            </div>
+          </form>
+
+          <hr class="divider">
+
+          <h2 id="part-number-heading">Buscar por número de parte / equivalencia</h2>
+          <form id="part-number-form" aria-labelledby="part-number-heading">
+            <div class="part-search-row">
+              <div>
+                <label for="inp-part-number">Número (OEM o aftermarket)</label>
+                <input type="search" id="inp-part-number" name="partNumber" inputmode="search" autocomplete="off"
+                  placeholder="Ej. 93240779, SB-132, RK620053" enterkeyhint="search">
+              </div>
+              <button type="submit" class="btn-primary">Buscar número</button>
+            </div>
+            <p style="font-size:0.8125rem;color:var(--text-muted);margin:0.75rem 0 0;">
+              Prueba con <strong style="color:var(--text);font-weight:600">93240779</strong> (OEM GM) o <strong style="color:var(--text);font-weight:600">RK620053</strong> (Moog).
+            </p>
+          </form>
+        </div>
+      </div>
+
+      <div class="results-section" aria-live="polite" aria-atomic="true">
+        <div class="results-header">
+          <h2 id="results-title">Resultados</h2>
+          <span class="results-count" id="results-count"></span>
+        </div>
+        <div id="results-container">
+          <p class="results-empty" id="results-placeholder">Selecciona vehículo y tipo de pieza, o busca por número de parte.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="por-que" aria-labelledby="why-title">
+      <h2 id="why-title">Por qué autopart.guru</h2>
+      <p class="section-lead">Pensado para talleres, refaccionarias y compradores que necesitan certeza de aplicación — no listados genéricos.</p>
+      <div class="features">
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">🎯</div>
+          <h3>Compatibilidad exacta</h3>
+          <p>Año, marca, modelo y versión (motor y acabado) antes de mostrar SKUs. Rangos de año y notas de posición en cada aplicación.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">🔗</div>
+          <h3>Equivalencias OEM y aftermarket</h3>
+          <p>Un número de GM, Moog, SYD o Gonher puede llevarte al mismo grupo de piezas intercambiables — como en mostrador real.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">📷</div>
+          <h3>Foto por SKU</h3>
+          <p>Cada referencia con imagen en catálogo para identificar visualmente la pieza antes de cotizar o surtir.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="block" id="categorias" aria-labelledby="cat-title">
+      <h2 id="cat-title">Categorías populares</h2>
+      <p class="section-lead">Acceso rápido a los tipos de pieza más buscados en suspensión, frenos y motor.</p>
+      <div class="cat-grid" id="category-grid"></div>
+    </section>
+
+    <section class="block" id="como-funciona" aria-labelledby="how-title">
+      <h2 id="how-title">Cómo funciona</h2>
+      <p class="section-lead">Tres pasos desde el vehículo hasta la pieza con equivalencias.</p>
+      <div class="steps">
+        <article class="step">
+          <h3>Define tu vehículo</h3>
+          <p>Selecciona año, marca, modelo y versión vendida en México — incluyendo motor y carrocería cuando aplica.</p>
+        </article>
+        <article class="step">
+          <h3>Elige el tipo de refacción</h3>
+          <p>Amortiguador, rótula, buje y más. Solo verás SKUs con aplicación documentada para esa combinación.</p>
+        </article>
+        <article class="step">
+          <h3>Cotiza con número cruzado</h3>
+          <p>Usa el SKU del fabricante o cruza por número OEM; las equivalencias aparecen en la misma ficha.</p>
+        </article>
+      </div>
+    </section>
+
+    <div class="cta-band" id="proveedores">
+      <div class="cta-inner">
+        <h2>¿Eres refaccionaria o proveedor?</h2>
+        <p>Próximamente podrás cargar tu catálogo con fotos, aplicaciones y números de intercambio para aparecer en autopart.guru.</p>
+        <a href="mailto:hola@autopart.guru?subject=Listar%20cat%C3%A1logo">Quiero listar mi catálogo</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p><strong>autopart.guru</strong> — Catálogo automotriz · Mercado México</p>
+    <p>Contenido de demostración basado en <code>db/seed_sample.sql</code>. No constituye inventario real.</p>
+    <p><a href="https://github.com/guilebaldo/autopart.guru">Código abierto en GitHub</a></p>
+  </footer>
+
+  <script id="sample-catalog-data" type="application/json">
+  {
+    "_notice": "SAMPLE DATA — mirrors db/seed_sample.sql for front-end demo only",
+    "partTypes": [
+      { "slug": "suspension-amortiguador", "name": "Amortiguador", "group": "Suspensión" },
+      { "slug": "suspension-rotula", "name": "Rótula", "group": "Suspensión" },
+      { "slug": "suspension-buje", "name": "Buje", "group": "Suspensión" },
+      { "slug": "suspension-horquilla", "name": "Horquilla", "group": "Suspensión" },
+      { "slug": "frenos-manguera", "name": "Manguera", "group": "Frenos" },
+      { "slug": "motor-banda", "name": "Banda", "group": "Motor" },
+      { "slug": "carroceria-parabrisas", "name": "Parabrisas", "group": "Carrocería" }
+    ],
+    "vehicles": [
+      {
+        "versionKey": "chevrolet|camaro|ss-v8-62",
+        "make": "Chevrolet", "makeSlug": "chevrolet",
+        "model": "Camaro", "modelSlug": "camaro",
+        "versionSlug": "ss-v8-62",
+        "displayName": "SS 6.2L V8",
+        "trim": "SS", "engineDesc": "6.2L V8", "bodyStyle": "Coupé",
+        "years": [2016, 2017, 2018]
+      },
+      {
+        "versionKey": "chevrolet|camaro|lt-20t",
+        "make": "Chevrolet", "makeSlug": "chevrolet",
+        "model": "Camaro", "modelSlug": "camaro",
+        "versionSlug": "lt-20t",
+        "displayName": "LT 2.0T",
+        "trim": "LT", "engineDesc": "2.0L Turbo", "bodyStyle": "Coupé",
+        "years": [2016, 2017]
+      },
+      {
+        "versionKey": "chevrolet|corsa|joy-14",
+        "make": "Chevrolet", "makeSlug": "chevrolet",
+        "model": "Corsa", "modelSlug": "corsa",
+        "versionSlug": "joy-14",
+        "displayName": "Joy 1.4",
+        "trim": "Joy", "engineDesc": "1.4L", "bodyStyle": "Hatchback",
+        "years": [2008, 2009, 2010]
+      },
+      {
+        "versionKey": "opel|astra|enjoy-18",
+        "make": "Opel", "makeSlug": "opel",
+        "model": "Astra", "modelSlug": "astra",
+        "versionSlug": "enjoy-18",
+        "displayName": "Enjoy 1.8",
+        "trim": "Enjoy", "engineDesc": "1.8L", "bodyStyle": "Hatchback",
+        "years": [2005, 2006, 2007]
+      }
+    ],
+    "skus": [
+      {
+        "id": "syd-sb-132",
+        "brand": "SYD",
+        "skuCode": "SB-132",
+        "name": "Buje de horquilla delantero",
+        "description": "SAMPLE — buje poliuretano",
+        "categorySlug": "suspension-buje",
+        "imageUrl": "https://cdn.example.mx/parts/sample/syd/sb-132.jpg",
+        "imageAlt": "Buje SYD SB-132",
+        "interchangeGroup": "sample-buje-corsa-astra",
+        "equivalents": [
+          { "number": "SB-132", "kind": "aftermarket", "brand": "SYD" },
+          { "number": "93240779", "kind": "oem", "brand": "General Motors" },
+          { "number": "K201434", "kind": "aftermarket", "brand": "Moog" }
+        ],
+        "fitments": [
+          {
+            "versionKey": "chevrolet|corsa|joy-14",
+            "yearFrom": 2008, "yearTo": 2010,
+            "axle": "delantero", "side": "ambos",
+            "position": "Horquilla delantera",
+            "qualifiers": { "abs": false },
+            "notes": "SAMPLE — Corsa Joy"
+          },
+          {
+            "versionKey": "opel|astra|enjoy-18",
+            "yearFrom": 2005, "yearTo": 2007,
+            "axle": "delantero", "side": "ambos",
+            "position": "Horquilla delantera",
+            "qualifiers": {},
+            "notes": "SAMPLE — Astra Enjoy"
+          }
+        ]
+      },
+      {
+        "id": "moog-rk620053",
+        "brand": "Moog",
+        "skuCode": "RK620053",
+        "name": "Rótula de suspensión inferior",
+        "description": "SAMPLE — rótula Moog Camaro",
+        "categorySlug": "suspension-rotula",
+        "imageUrl": "https://cdn.example.mx/parts/sample/moog/rk620053.jpg",
+        "imageAlt": "Rótula Moog RK620053",
+        "interchangeGroup": "sample-rotula-camaro",
+        "equivalents": [
+          { "number": "RK620053", "kind": "aftermarket", "brand": "Moog" }
+        ],
+        "fitments": [
+          {
+            "versionKey": "chevrolet|camaro|ss-v8-62",
+            "yearFrom": 2016, "yearTo": 2018,
+            "axle": "delantero", "side": "ambos",
+            "position": "Inferior",
+            "qualifiers": { "abs": true },
+            "notes": "SAMPLE — Camaro SS"
+          }
+        ]
+      },
+      {
+        "id": "gonher-am-4412",
+        "brand": "Gonher",
+        "skuCode": "GON-AM-4412",
+        "name": "Amortiguador delantero",
+        "description": "SAMPLE — sin aplicaciones en datos de muestra",
+        "categorySlug": "suspension-amortiguador",
+        "imageUrl": null,
+        "imageAlt": "Amortiguador Gonher",
+        "interchangeGroup": null,
+        "equivalents": [],
+        "fitments": []
+      }
+    ]
+  }
+  </script>
+
+  <script>
+    (function () {
+      const catalog = JSON.parse(document.getElementById('sample-catalog-data').textContent);
+
+      const selYear = document.getElementById('sel-year');
+      const selMake = document.getElementById('sel-make');
+      const selModel = document.getElementById('sel-model');
+      const selVersion = document.getElementById('sel-version');
+      const selPartType = document.getElementById('sel-part-type');
+      const resultsContainer = document.getElementById('results-container');
+      const resultsCount = document.getElementById('results-count');
+      const resultsTitle = document.getElementById('results-title');
+
+      function normalizePartNumber(raw) {
+        return String(raw || '')
+          .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+          .toUpperCase()
+          .replace(/[^A-Z0-9]/g, '');
+      }
+
+      function resetSelect(select, placeholder, disabled) {
+        select.innerHTML = '';
+        const opt = document.createElement('option');
+        opt.value = '';
+        opt.textContent = placeholder;
+        select.appendChild(opt);
+        select.disabled = disabled;
+      }
+
+      function fillSelect(select, items, getValue, getLabel, disabled) {
+        resetSelect(select, select.options[0]?.textContent || '—', disabled);
+        items.forEach(function (item) {
+          const o = document.createElement('option');
+          o.value = getValue(item);
+          o.textContent = getLabel(item);
+          select.appendChild(o);
+        });
+        select.disabled = disabled || items.length === 0;
+      }
+
+      function initYears() {
+        const years = new Set();
+        catalog.vehicles.forEach(function (v) {
+          v.years.forEach(function (y) { years.add(y); });
+        });
+        fillSelect(
+          selYear,
+          Array.from(years).sort(function (a, b) { return b - a; }),
+          function (y) { return String(y); },
+          function (y) { return String(y); },
+          false
+        );
+      }
+
+      function initPartTypes() {
+        fillSelect(
+          selPartType,
+          catalog.partTypes,
+          function (p) { return p.slug; },
+          function (p) { return p.group + ' · ' + p.name; },
+          false
+        );
+      }
+
+      function vehiclesForYear(year) {
+        return catalog.vehicles.filter(function (v) {
+          return v.years.indexOf(Number(year)) !== -1;
+        });
+      }
+
+      function onYearChange() {
+        resetSelect(selMake, 'Marca', true);
+        resetSelect(selModel, 'Modelo', true);
+        resetSelect(selVersion, 'Versión / motor', true);
+        const year = selYear.value;
+        if (!year) return;
+
+        const vs = vehiclesForYear(year);
+        const makes = [];
+        const seen = new Set();
+        vs.forEach(function (v) {
+          if (!seen.has(v.makeSlug)) {
+            seen.add(v.makeSlug);
+            makes.push({ slug: v.makeSlug, name: v.make });
+          }
+        });
+        makes.sort(function (a, b) { return a.name.localeCompare(b.name, 'es'); });
+        fillSelect(selMake, makes, function (m) { return m.slug; }, function (m) { return m.name; }, false);
+      }
+
+      function onMakeChange() {
+        resetSelect(selModel, 'Modelo', true);
+        resetSelect(selVersion, 'Versión / motor', true);
+        const year = selYear.value;
+        const makeSlug = selMake.value;
+        if (!year || !makeSlug) return;
+
+        const vs = vehiclesForYear(year).filter(function (v) { return v.makeSlug === makeSlug; });
+        const models = [];
+        const seen = new Set();
+        vs.forEach(function (v) {
+          if (!seen.has(v.modelSlug)) {
+            seen.add(v.modelSlug);
+            models.push({ slug: v.modelSlug, name: v.model });
+          }
+        });
+        models.sort(function (a, b) { return a.name.localeCompare(b.name, 'es'); });
+        fillSelect(selModel, models, function (m) { return m.slug; }, function (m) { return m.name; }, false);
+      }
+
+      function onModelChange() {
+        resetSelect(selVersion, 'Versión / motor', true);
+        const year = selYear.value;
+        const makeSlug = selMake.value;
+        const modelSlug = selModel.value;
+        if (!year || !makeSlug || !modelSlug) return;
+
+        const vs = vehiclesForYear(year).filter(function (v) {
+          return v.makeSlug === makeSlug && v.modelSlug === modelSlug;
+        });
+        fillSelect(
+          selVersion,
+          vs,
+          function (v) { return v.versionKey; },
+          function (v) { return v.displayName + ' — ' + v.engineDesc; },
+          false
+        );
+      }
+
+      function formatFitment(f, vehicle) {
+        const parts = [];
+        if (vehicle) {
+          parts.push(vehicle.make + ' ' + vehicle.model + ' ' + vehicle.displayName);
+        }
+        parts.push('Años ' + f.yearFrom + '–' + f.yearTo);
+        if (f.axle && f.axle !== 'na') parts.push(f.axle);
+        if (f.side && f.side !== 'na' && f.side !== 'ambos') parts.push(f.side);
+        if (f.position) parts.push(f.position);
+        if (f.qualifiers && f.qualifiers.abs === true) parts.push('con ABS');
+        if (f.qualifiers && f.qualifiers.abs === false) parts.push('sin ABS');
+        if (f.notes) parts.push(f.notes);
+        return parts.join(' · ');
+      }
+
+      function renderCard(sku, fitmentLine) {
+        const card = document.createElement('article');
+        card.className = 'part-card';
+        card.setAttribute('aria-label', sku.brand + ' ' + sku.skuCode);
+
+        const media = document.createElement('div');
+        media.className = 'part-card__media';
+        media.innerHTML = '<svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="8" y="24" width="104" height="40" rx="6" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="36" cy="64" r="8" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="84" cy="64" r="8" fill="none" stroke="currentColor" stroke-width="2"/></svg>';
+        if (sku.imageUrl) {
+          const img = document.createElement('img');
+          img.src = sku.imageUrl;
+          img.alt = sku.imageAlt || sku.name;
+          img.loading = 'lazy';
+          img.addEventListener('load', function () { media.classList.add('has-photo'); });
+          img.addEventListener('error', function () { img.remove(); });
+          media.appendChild(img);
+        }
+
+        const body = document.createElement('div');
+        body.className = 'part-card__body';
+        body.innerHTML =
+          '<p class="part-card__brand"></p>' +
+          '<p class="part-card__sku"></p>' +
+          '<h3 class="part-card__name"></h3>' +
+          '<p class="part-card__fitment"></p>';
+        body.querySelector('.part-card__brand').textContent = sku.brand;
+        body.querySelector('.part-card__sku').textContent = sku.skuCode;
+        body.querySelector('.part-card__name').textContent = sku.name;
+        body.querySelector('.part-card__fitment').textContent = fitmentLine || sku.description || '';
+
+        if (sku.equivalents && sku.equivalents.length) {
+          const ul = document.createElement('ul');
+          ul.className = 'equiv-list';
+          ul.setAttribute('aria-label', 'Números equivalentes');
+          sku.equivalents.forEach(function (eq) {
+            const li = document.createElement('li');
+            li.dataset.kind = eq.kind;
+            li.textContent = eq.number + (eq.brand ? ' (' + eq.brand + ')' : '');
+            li.title = eq.kind;
+            ul.appendChild(li);
+          });
+          body.appendChild(ul);
+        }
+
+        card.appendChild(media);
+        card.appendChild(body);
+        return card;
+      }
+
+      function showResults(skus, meta) {
+        resultsTitle.textContent = meta.title || 'Resultados';
+        resultsCount.textContent = meta.countLabel || '';
+        resultsContainer.innerHTML = '';
+        if (!skus.length) {
+          const empty = document.createElement('p');
+          empty.className = 'results-empty';
+          empty.textContent = meta.emptyMessage || 'Sin resultados para esta búsqueda.';
+          resultsContainer.appendChild(empty);
+          return;
+        }
+        const grid = document.createElement('div');
+        grid.className = 'results-grid';
+        skus.forEach(function (row) {
+          grid.appendChild(renderCard(row.sku, row.fitmentLine));
+        });
+        resultsContainer.appendChild(grid);
+      }
+
+      function searchByVehicle(year, versionKey, categorySlug) {
+        const vehicle = catalog.vehicles.find(function (v) { return v.versionKey === versionKey; });
+        const y = Number(year);
+        const matches = [];
+        catalog.skus.forEach(function (sku) {
+          if (sku.categorySlug !== categorySlug) return;
+          sku.fitments.forEach(function (f) {
+            if (f.versionKey === versionKey && y >= f.yearFrom && y <= f.yearTo) {
+              matches.push({
+                sku: sku,
+                fitmentLine: formatFitment(f, vehicle)
+              });
+            }
+          });
+        });
+        return matches;
+      }
+
+      function searchByNumber(raw) {
+        const n = normalizePartNumber(raw);
+        if (!n) return [];
+        const found = new Map();
+        catalog.skus.forEach(function (sku) {
+          if (normalizePartNumber(sku.skuCode) === n) {
+            found.set(sku.id, { sku: sku, fitmentLine: 'Coincidencia directa en SKU' });
+          }
+          (sku.equivalents || []).forEach(function (eq) {
+            if (normalizePartNumber(eq.number) === n) {
+              found.set(sku.id, {
+                sku: sku,
+                fitmentLine: 'Equivalencia: ' + eq.number + ' (' + eq.kind + ')'
+              });
+            }
+          });
+        });
+        return Array.from(found.values());
+      }
+
+      function buildCategoryGrid() {
+        const grid = document.getElementById('category-grid');
+        catalog.partTypes.forEach(function (pt) {
+          const a = document.createElement('a');
+          a.className = 'cat-tile';
+          a.href = '#buscar';
+          a.innerHTML = '<strong></strong><span></span>';
+          a.querySelector('strong').textContent = pt.name;
+          a.querySelector('span').textContent = pt.group;
+          a.addEventListener('click', function () {
+            selPartType.value = pt.slug;
+            document.getElementById('buscar').scrollIntoView({ behavior: 'smooth' });
+          });
+          grid.appendChild(a);
+        });
+      }
+
+      selYear.addEventListener('change', onYearChange);
+      selMake.addEventListener('change', onMakeChange);
+      selModel.addEventListener('change', onModelChange);
+
+      document.getElementById('vehicle-search-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const rows = searchByVehicle(selYear.value, selVersion.value, selPartType.value);
+        const pt = catalog.partTypes.find(function (p) { return p.slug === selPartType.value; });
+        showResults(rows, {
+          title: 'Resultados por vehículo',
+          countLabel: rows.length + ' pieza(s)',
+          emptyMessage: 'No hay SKUs de muestra para ' + (pt ? pt.name : 'esta categoría') + ' en ese vehículo. Prueba buje en Corsa 2009 o rótula en Camaro SS 2016.'
+        });
+      });
+
+      document.getElementById('part-number-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const rows = searchByNumber(document.getElementById('inp-part-number').value);
+        showResults(rows, {
+          title: 'Resultados por número',
+          countLabel: rows.length + ' pieza(s)',
+          emptyMessage: 'Número no encontrado en datos de muestra. Prueba 93240779, SB-132 o RK620053.'
+        });
+      });
+
+      document.getElementById('btn-clear-vehicle').addEventListener('click', function () {
+        selYear.value = '';
+        onYearChange();
+        selPartType.value = '';
+        showResults([], {
+          emptyMessage: 'Selecciona vehículo y tipo de pieza, o busca por número de parte.'
+        });
+      });
+
+      initYears();
+      initPartTypes();
+      buildCategoryGrid();
+
+      function applyDemoVehicleSearch() {
+        selYear.value = '2009';
+        onYearChange();
+        selMake.value = 'chevrolet';
+        onMakeChange();
+        selModel.value = 'corsa';
+        onModelChange();
+        selVersion.value = 'chevrolet|corsa|joy-14';
+        selPartType.value = 'suspension-buje';
+        const rows = searchByVehicle(selYear.value, selVersion.value, selPartType.value);
+        showResults(rows, {
+          title: 'Resultados por vehículo',
+          countLabel: rows.length + ' pieza(s)',
+          emptyMessage: 'Sin resultados.'
+        });
+      }
+
+      if (location.hash === '#demo' || new URLSearchParams(location.search).has('demo')) {
+        applyDemoVehicleSearch();
+      }
+    })();
+  </script>
+</body>
+</html>
