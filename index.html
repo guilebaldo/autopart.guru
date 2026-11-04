@@ -99,7 +99,7 @@
       flex-shrink: 0;
     }
     .logo object,
-    .hero-logo object {
+    .search-panel-brand object {
       display: block;
       pointer-events: none;
       border: 0;
@@ -144,18 +144,6 @@
         linear-gradient(180deg, var(--ink) 0%, #1a1a1a 100%);
     }
     .hero-inner { max-width: var(--max); margin: 0 auto; }
-    .hero-logo {
-      margin: 0 auto 1.25rem;
-      max-width: min(100%, 680px);
-      line-height: 0;
-      filter: drop-shadow(0 16px 28px rgba(163, 0, 0, 0.45));
-    }
-    .hero-logo object {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 680 / 240;
-      min-height: 108px;
-    }
     .badge-sample {
       display: inline-flex;
       align-items: center;
@@ -198,10 +186,10 @@
       line-height: 0;
     }
     .search-panel-brand object {
-      display: block;
-      height: 2rem;
-      width: 8.5rem;
-      pointer-events: none;
+      height: 2.25rem;
+      width: auto;
+      min-width: 6.5rem;
+      max-width: 100%;
     }
     .search-panel h2 {
       font-size: 1rem;
@@ -622,7 +610,7 @@
   <header>
     <div class="header-inner">
       <a class="logo logo--header" href="/" aria-label="autopart.guru — inicio">
-        <img src="assets/logo-navbar.svg" width="176" height="42" alt="" aria-hidden="true" decoding="async">
+        <img src="assets/logo-navbar.svg" alt="" aria-hidden="true" decoding="async">
         <span class="sr-only">autopart.guru</span>
       </a>
       <nav class="nav-desktop" aria-label="Principal">
@@ -638,9 +626,6 @@
   <main>
     <section class="hero" id="buscar" aria-labelledby="hero-title">
       <div class="hero-inner">
-        <div class="hero-logo" aria-hidden="true">
-          <object type="image/svg+xml" data="assets/logo-animado-dark.svg" tabindex="-1">Logo animado autopart.guru</object>
-        </div>
         <p class="badge-sample" role="status">Datos de muestra — demostración</p>
         <h1 id="hero-title">La refacción correcta para tu auto en México</h1>
         <p class="hero-lead">Elige año, marca, modelo y versión; indica el tipo de pieza o busca por número OEM o aftermarket con equivalencias cruzadas.</p>
