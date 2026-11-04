@@ -1,20 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="110 188 520 125" role="img" aria-label="autopart.guru">
-  <!-- Static mark for #111111 navbar: transparent bg, red body -->
+  <!-- Navbar: transparent canvas, white car on #111111 -->
   <g transform="translate(-45 0)">
     <g>
-      <g transform="translate(8 10)" fill="#A30000">
+      <g transform="translate(8 10)" fill="#3A3A3A">
         <path d="M160 249.2 L340 190 L650 292 L600 292 L340 220 L190 292 Z"/>
         <path d="M470 256 L437.5 247 L324 247 L318.5 256 Z"/>
       </g>
-      <path d="M160 249.2 L340 190 L650 292 L600 292 L340 220 L190 292 Z" fill="#D90000"/>
-      <path d="M190 292 L340 220 L600 292 L588 292 L340 227 L200 292 Z" fill="#A30000"/>
-      <path d="M160 249.2 L340 190 L650 292 L640 292 L340 197 L166 252 Z" fill="#FF2424"/>
-      <path d="M470 256 L437.5 247 L324 247 L318.5 256 Z" fill="#D90000"/>
-      <path d="M470 256 L465 254.5 L322 254.5 L318.5 256 Z" fill="#D6D9DD"/>
-      <path d="M190 300 A46 46 0 0 0 272.8 300 Z" fill="#111111" stroke="#D6D9DD" stroke-width="2.5"/>
-      <path d="M515 300 A46 46 0 0 0 597.8 300 Z" fill="#111111" stroke="#D6D9DD" stroke-width="2.5"/>
-      <path d="M210 300 A26 26 0 0 0 252.8 300 Z" fill="#3A3A3A"/>
-      <path d="M535 300 A26 26 0 0 0 577.8 300 Z" fill="#3A3A3A"/>
+      <path d="M160 249.2 L340 190 L650 292 L600 292 L340 220 L190 292 Z" fill="#FFFFFF"/>
+      <path d="M190 292 L340 220 L600 292 L588 292 L340 227 L200 292 Z" fill="#D6D9DD"/>
+      <path d="M160 249.2 L340 190 L650 292 L640 292 L340 197 L166 252 Z" fill="#FFFFFF"/>
+      <path d="M470 256 L437.5 247 L324 247 L318.5 256 Z" fill="#FFFFFF"/>
+      <path d="M470 256 L465 254.5 L322 254.5 L318.5 256 Z" fill="#9AA0A6"/>
+      <path d="M190 300 A46 46 0 0 0 272.8 300 Z" fill="#D6D9DD"/>
+      <path d="M515 300 A46 46 0 0 0 597.8 300 Z" fill="#D6D9DD"/>
+      <path d="M210 300 A26 26 0 0 0 252.8 300 Z" fill="#9AA0A6"/>
+      <path d="M535 300 A26 26 0 0 0 577.8 300 Z" fill="#9AA0A6"/>
+      <path d="M220 300 A16 16 0 0 0 243.2 300 Z" fill="#3A3A3A"/>
+      <path d="M545 300 A16 16 0 0 0 568.2 300 Z" fill="#3A3A3A"/>
     </g>
   </g>
 </svg>

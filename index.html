@@ -103,15 +103,18 @@
       display: block;
       pointer-events: none;
       border: 0;
+      background: transparent;
     }
-    .logo--header object {
+    .logo--header img {
+      display: block;
       height: 2.35rem;
-      width: 9.75rem;
+      width: auto;
+      max-width: 11rem;
+      background: transparent;
     }
     @media (min-width: 768px) {
-      .logo--header object {
+      .logo--header img {
         height: 2.65rem;
-        width: 11rem;
       }
     }
     nav a {
@@ -619,7 +622,7 @@
   <header>
     <div class="header-inner">
       <a class="logo logo--header" href="/" aria-label="autopart.guru — inicio">
-        <object type="image/svg+xml" data="assets/logo-navbar.svg" aria-hidden="true" tabindex="-1">autopart.guru</object>
+        <img src="assets/logo-navbar.svg" width="176" height="42" alt="" aria-hidden="true" decoding="async">
         <span class="sr-only">autopart.guru</span>
       </a>
       <nav class="nav-desktop" aria-label="Principal">
