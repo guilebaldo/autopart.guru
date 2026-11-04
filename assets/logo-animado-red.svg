@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 140 680 240" width="680" height="240">
-  <style>
+  <style><![CDATA[
     .car{animation:bounce .6s ease-in-out infinite;transform-origin:center}
     .sl line{animation:dash 0.9s linear infinite}
     .sl line:nth-child(2){animation-delay:.2s}.sl line:nth-child(3){animation-delay:.45s}.sl line:nth-child(4){animation-delay:.65s}
@@ -8,8 +8,7 @@
     @keyframes dash{0%{transform:translateX(30px);opacity:0}25%{opacity:1}100%{transform:translateX(-40px);opacity:0}}
     @keyframes floor{0%,100%{opacity:1}50%{opacity:.7}}
     @media (prefers-reduced-motion:reduce){*{animation:none!important}}
-  </style>
-  <!-- Animated mark for #D90000 band backgrounds (CTA) -->
+  ]]></style>
   <rect x="0" y="140" width="680" height="240" fill="#D90000"/>
   <rect class="floor" x="120" y="326" width="510" height="8" rx="4" fill="#A30000"/>
   <g class="sl" stroke-linecap="round">
