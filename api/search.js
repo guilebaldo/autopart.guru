@@ -1,4 +1,4 @@
-const { Pool } = require('@neondatabase/serverless');
+const { getPool } = require('./_db');
 
 const SEARCH_SQL = `
 WITH inp AS (
@@ -174,10 +174,6 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  if (!process.env.DATABASE_URL) {
-    return res.status(503).json({ error: 'Database not configured' });
-  }
-
   const { q = '', year = '', make = '', model = '', version = '', category = '' } =
     req.query || {};
 
@@ -189,9 +185,12 @@ module.exports = async function handler(req, res) {
     });
   }
 
-  let pool;
+  const pool = getPool();
+  if (!pool) {
+    return res.status(503).json({ error: 'Database not configured' });
+  }
+
   try {
-    pool = new Pool({ connectionString: process.env.DATABASE_URL });
     const { rows } = await pool.query(SEARCH_SQL, [
       String(q),
       String(year || ''),

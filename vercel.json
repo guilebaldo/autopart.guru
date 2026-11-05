@@ -2,6 +2,9 @@
   "functions": {
     "api/search.js": {
       "maxDuration": 15
+    },
+    "api/vehicles.js": {
+      "maxDuration": 10
     }
   }
 }
