@@ -1,0 +1,8 @@
+{
+  "name": "autopart-guru",
+  "private": true,
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4"
+  }
+}

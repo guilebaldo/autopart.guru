@@ -342,6 +342,13 @@
       border-radius: var(--radius);
       background: rgba(58, 58, 58, 0.65);
     }
+    .results-loading {
+      padding: 2rem 1.25rem;
+      text-align: center;
+      color: var(--gray-light);
+      background: rgba(58, 58, 58, 0.65);
+      border-radius: var(--radius);
+    }
     .results-grid {
       display: grid;
       gap: 1rem;
@@ -626,7 +633,7 @@
   <main>
     <section class="hero" id="buscar" aria-labelledby="hero-title">
       <div class="hero-inner">
-        <p class="badge-sample" role="status">Datos de muestra — demostración</p>
+        <p class="badge-sample" role="status">Catálogo en vivo — selector de vehículo en actualización</p>
         <h1 id="hero-title">La refacción correcta para tu auto en México</h1>
         <p class="hero-lead">Elige año, marca, modelo y versión; indica el tipo de pieza o busca por número OEM o aftermarket con equivalencias cruzadas.</p>
 
@@ -687,7 +694,7 @@
               <button type="submit" class="btn-primary">Buscar número</button>
             </div>
             <p class="search-hint">
-              Prueba con <strong>93240779</strong> (OEM GM) o <strong>RK620053</strong> (Moog).
+              Prueba con <strong>1209003</strong> o busca <strong>amortiguador acura</strong>.
             </p>
           </form>
         </div>
@@ -1024,22 +1031,36 @@
         );
       }
 
-      function formatFitment(f, vehicle) {
-        const parts = [];
-        if (vehicle) {
-          parts.push(vehicle.make + ' ' + vehicle.model + ' ' + vehicle.displayName);
-        }
-        parts.push('Años ' + f.yearFrom + '–' + f.yearTo);
-        if (f.axle && f.axle !== 'na') parts.push(f.axle);
-        if (f.side && f.side !== 'na' && f.side !== 'ambos') parts.push(f.side);
-        if (f.position) parts.push(f.position);
-        if (f.qualifiers && f.qualifiers.abs === true) parts.push('con ABS');
-        if (f.qualifiers && f.qualifiers.abs === false) parts.push('sin ABS');
-        if (f.notes) parts.push(f.notes);
-        return parts.join(' · ');
+      function parseVersionKey(versionKey) {
+        const parts = String(versionKey || '').split('|');
+        return {
+          make: parts[0] || '',
+          model: parts[1] || '',
+          version: parts[2] || ''
+        };
       }
 
-      function renderCard(sku, fitmentLine) {
+      function formatFitmentsApi(fitments) {
+        if (!fitments || !fitments.length) {
+          return 'Sin aplicaciones registradas en catálogo';
+        }
+        const lines = fitments.slice(0, 3).map(function (f) {
+          const bits = [
+            f.make_name,
+            f.model_name,
+            f.year_from + '–' + f.year_to
+          ];
+          if (f.position_label_es) bits.push(f.position_label_es);
+          if (f.version_display_name) bits.push(f.version_display_name);
+          return bits.join(' · ');
+        });
+        if (fitments.length > 3) {
+          lines.push('+' + (fitments.length - 3) + ' aplicaciones más');
+        }
+        return lines.join(' | ');
+      }
+
+      function renderCard(sku, fitmentLine, categoryName) {
         const card = document.createElement('article');
         card.className = 'part-card';
         card.setAttribute('aria-label', sku.brand + ' ' + sku.skuCode);
@@ -1067,7 +1088,9 @@
         body.querySelector('.part-card__brand').textContent = sku.brand;
         body.querySelector('.part-card__sku').textContent = sku.skuCode;
         body.querySelector('.part-card__name').textContent = sku.name;
-        body.querySelector('.part-card__fitment').textContent = fitmentLine || sku.description || '';
+        const fitmentText = fitmentLine || sku.description || '';
+        body.querySelector('.part-card__fitment').textContent =
+          (categoryName ? categoryName + ' — ' : '') + fitmentText;
 
         if (sku.equivalents && sku.equivalents.length) {
           const ul = document.createElement('ul');
@@ -1088,11 +1111,21 @@
         return card;
       }
 
-      function showResults(skus, meta) {
+      function showLoading(message) {
+        resultsTitle.textContent = 'Buscando…';
+        resultsCount.textContent = '';
+        resultsContainer.innerHTML = '';
+        const loading = document.createElement('p');
+        loading.className = 'results-loading';
+        loading.textContent = message || 'Consultando catálogo…';
+        resultsContainer.appendChild(loading);
+      }
+
+      function showResults(items, meta) {
         resultsTitle.textContent = meta.title || 'Resultados';
         resultsCount.textContent = meta.countLabel || '';
         resultsContainer.innerHTML = '';
-        if (!skus.length) {
+        if (!items.length) {
           const empty = document.createElement('p');
           empty.className = 'results-empty';
           empty.textContent = meta.emptyMessage || 'Sin resultados para esta búsqueda.';
@@ -1101,48 +1134,63 @@
         }
         const grid = document.createElement('div');
         grid.className = 'results-grid';
-        skus.forEach(function (row) {
-          grid.appendChild(renderCard(row.sku, row.fitmentLine));
+        items.forEach(function (item) {
+          const sku = {
+            brand: item.brand_name,
+            skuCode: item.sku_code,
+            name: item.name_es,
+            imageUrl: item.primary_image_url,
+            imageAlt: item.name_es,
+            equivalents: (item.reference_numbers || []).map(function (r) {
+              return {
+                number: r.number_raw,
+                kind: r.kind,
+                brand: r.brand_name
+              };
+            })
+          };
+          grid.appendChild(renderCard(
+            sku,
+            formatFitmentsApi(item.fitments),
+            item.category_name_es
+          ));
         });
         resultsContainer.appendChild(grid);
       }
 
-      function searchByVehicle(year, versionKey, categorySlug) {
-        const vehicle = catalog.vehicles.find(function (v) { return v.versionKey === versionKey; });
-        const y = Number(year);
-        const matches = [];
-        catalog.skus.forEach(function (sku) {
-          if (sku.categorySlug !== categorySlug) return;
-          sku.fitments.forEach(function (f) {
-            if (f.versionKey === versionKey && y >= f.yearFrom && y <= f.yearTo) {
-              matches.push({
-                sku: sku,
-                fitmentLine: formatFitment(f, vehicle)
-              });
-            }
-          });
+      async function fetchSearch(params) {
+        const qs = new URLSearchParams();
+        if (params.q) qs.set('q', params.q);
+        if (params.year) qs.set('year', params.year);
+        if (params.make) qs.set('make', params.make);
+        if (params.model) qs.set('model', params.model);
+        if (params.version) qs.set('version', params.version);
+        if (params.category) qs.set('category', params.category);
+        const res = await fetch('/api/search?' + qs.toString(), {
+          headers: { Accept: 'application/json' }
         });
-        return matches;
+        const data = await res.json().catch(function () { return {}; });
+        if (!res.ok) {
+          throw new Error(data.error || 'No se pudo completar la búsqueda');
+        }
+        return data.results || [];
       }
 
-      function searchByNumber(raw) {
-        const n = normalizePartNumber(raw);
-        if (!n) return [];
-        const found = new Map();
-        catalog.skus.forEach(function (sku) {
-          if (normalizePartNumber(sku.skuCode) === n) {
-            found.set(sku.id, { sku: sku, fitmentLine: 'Coincidencia directa en SKU' });
-          }
-          (sku.equivalents || []).forEach(function (eq) {
-            if (normalizePartNumber(eq.number) === n) {
-              found.set(sku.id, {
-                sku: sku,
-                fitmentLine: 'Equivalencia: ' + eq.number + ' (' + eq.kind + ')'
-              });
-            }
+      async function runSearch(params, meta) {
+        showLoading();
+        try {
+          const results = await fetchSearch(params);
+          showResults(results, {
+            title: meta.title,
+            countLabel: results.length + ' pieza(s)',
+            emptyMessage: meta.emptyMessage
           });
-        });
-        return Array.from(found.values());
+        } catch (err) {
+          showResults([], {
+            title: meta.title || 'Resultados',
+            emptyMessage: err.message || 'Error al buscar. Intenta de nuevo en unos segundos.'
+          });
+        }
       }
 
       function buildCategoryGrid() {
@@ -1168,22 +1216,28 @@
 
       document.getElementById('vehicle-search-form').addEventListener('submit', function (e) {
         e.preventDefault();
-        const rows = searchByVehicle(selYear.value, selVersion.value, selPartType.value);
+        const vk = parseVersionKey(selVersion.value);
         const pt = catalog.partTypes.find(function (p) { return p.slug === selPartType.value; });
-        showResults(rows, {
+        runSearch({
+          year: selYear.value,
+          make: vk.make,
+          model: vk.model,
+          version: vk.version,
+          category: selPartType.value
+        }, {
           title: 'Resultados por vehículo',
-          countLabel: rows.length + ' pieza(s)',
-          emptyMessage: 'No hay SKUs de muestra para ' + (pt ? pt.name : 'esta categoría') + ' en ese vehículo. Prueba buje en Corsa 2009 o rótula en Camaro SS 2016.'
+          emptyMessage: 'No encontramos piezas para ese vehículo y categoría' +
+            (pt ? ' (' + pt.name + ')' : '') + '. Prueba la búsqueda por número o texto libre.'
         });
       });
 
       document.getElementById('part-number-form').addEventListener('submit', function (e) {
         e.preventDefault();
-        const rows = searchByNumber(document.getElementById('inp-part-number').value);
-        showResults(rows, {
-          title: 'Resultados por número',
-          countLabel: rows.length + ' pieza(s)',
-          emptyMessage: 'Número no encontrado en datos de muestra. Prueba 93240779, SB-132 o RK620053.'
+        const q = document.getElementById('inp-part-number').value.trim();
+        if (!q) return;
+        runSearch({ q: q }, {
+          title: 'Resultados por búsqueda',
+          emptyMessage: 'No encontramos coincidencias para “‘ + q + '”. Prueba 1209003 o amortiguador acura.'
         });
       });
 
@@ -1200,25 +1254,12 @@
       initPartTypes();
       buildCategoryGrid();
 
-      function applyDemoVehicleSearch() {
-        selYear.value = '2009';
-        onYearChange();
-        selMake.value = 'chevrolet';
-        onMakeChange();
-        selModel.value = 'corsa';
-        onModelChange();
-        selVersion.value = 'chevrolet|corsa|joy-14';
-        selPartType.value = 'suspension-buje';
-        const rows = searchByVehicle(selYear.value, selVersion.value, selPartType.value);
-        showResults(rows, {
-          title: 'Resultados por vehículo',
-          countLabel: rows.length + ' pieza(s)',
+      if (location.hash === '#demo' || new URLSearchParams(location.search).has('demo')) {
+        document.getElementById('inp-part-number').value = '1209003';
+        runSearch({ q: '1209003' }, {
+          title: 'Resultados por búsqueda',
           emptyMessage: 'Sin resultados.'
         });
-      }
-
-      if (location.hash === '#demo' || new URLSearchParams(location.search).has('demo')) {
-        applyDemoVehicleSearch();
       }
     })();
   </script>
