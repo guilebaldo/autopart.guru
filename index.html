@@ -633,7 +633,7 @@
   <main>
     <section class="hero" id="buscar" aria-labelledby="hero-title">
       <div class="hero-inner">
-        <p class="badge-sample" role="status">Catálogo en vivo — selector de vehículo en actualización</p>
+        <p class="badge-sample" role="status">Catálogo en vivo — México</p>
         <h1 id="hero-title">La refacción correcta para tu auto en México</h1>
         <p class="hero-lead">Elige año, marca, modelo y versión; indica el tipo de pieza o busca por número OEM o aftermarket con equivalencias cruzadas.</p>
 
@@ -772,140 +772,12 @@
 
   <footer>
     <p><strong>autopart.guru</strong> — Catálogo automotriz · Mercado México</p>
-    <p>Contenido de demostración basado en <code>db/seed_sample.sql</code>. No constituye inventario real.</p>
+    <p>Datos de catálogo en PostgreSQL (Neon). Las imágenes son referencias del proveedor.</p>
     <p><a href="https://github.com/guilebaldo/autopart.guru">Código abierto en GitHub</a></p>
   </footer>
 
-  <script id="sample-catalog-data" type="application/json">
-  {
-    "_notice": "SAMPLE DATA — mirrors db/seed_sample.sql for front-end demo only",
-    "partTypes": [
-      { "slug": "suspension-amortiguador", "name": "Amortiguador", "group": "Suspensión" },
-      { "slug": "suspension-rotula", "name": "Rótula", "group": "Suspensión" },
-      { "slug": "suspension-buje", "name": "Buje", "group": "Suspensión" },
-      { "slug": "suspension-horquilla", "name": "Horquilla", "group": "Suspensión" },
-      { "slug": "frenos-manguera", "name": "Manguera", "group": "Frenos" },
-      { "slug": "motor-banda", "name": "Banda", "group": "Motor" },
-      { "slug": "carroceria-parabrisas", "name": "Parabrisas", "group": "Carrocería" }
-    ],
-    "vehicles": [
-      {
-        "versionKey": "chevrolet|camaro|ss-v8-62",
-        "make": "Chevrolet", "makeSlug": "chevrolet",
-        "model": "Camaro", "modelSlug": "camaro",
-        "versionSlug": "ss-v8-62",
-        "displayName": "SS 6.2L V8",
-        "trim": "SS", "engineDesc": "6.2L V8", "bodyStyle": "Coupé",
-        "years": [2016, 2017, 2018]
-      },
-      {
-        "versionKey": "chevrolet|camaro|lt-20t",
-        "make": "Chevrolet", "makeSlug": "chevrolet",
-        "model": "Camaro", "modelSlug": "camaro",
-        "versionSlug": "lt-20t",
-        "displayName": "LT 2.0T",
-        "trim": "LT", "engineDesc": "2.0L Turbo", "bodyStyle": "Coupé",
-        "years": [2016, 2017]
-      },
-      {
-        "versionKey": "chevrolet|corsa|joy-14",
-        "make": "Chevrolet", "makeSlug": "chevrolet",
-        "model": "Corsa", "modelSlug": "corsa",
-        "versionSlug": "joy-14",
-        "displayName": "Joy 1.4",
-        "trim": "Joy", "engineDesc": "1.4L", "bodyStyle": "Hatchback",
-        "years": [2008, 2009, 2010]
-      },
-      {
-        "versionKey": "opel|astra|enjoy-18",
-        "make": "Opel", "makeSlug": "opel",
-        "model": "Astra", "modelSlug": "astra",
-        "versionSlug": "enjoy-18",
-        "displayName": "Enjoy 1.8",
-        "trim": "Enjoy", "engineDesc": "1.8L", "bodyStyle": "Hatchback",
-        "years": [2005, 2006, 2007]
-      }
-    ],
-    "skus": [
-      {
-        "id": "syd-sb-132",
-        "brand": "SYD",
-        "skuCode": "SB-132",
-        "name": "Buje de horquilla delantero",
-        "description": "SAMPLE — buje poliuretano",
-        "categorySlug": "suspension-buje",
-        "imageUrl": "https://cdn.example.mx/parts/sample/syd/sb-132.jpg",
-        "imageAlt": "Buje SYD SB-132",
-        "interchangeGroup": "sample-buje-corsa-astra",
-        "equivalents": [
-          { "number": "SB-132", "kind": "aftermarket", "brand": "SYD" },
-          { "number": "93240779", "kind": "oem", "brand": "General Motors" },
-          { "number": "K201434", "kind": "aftermarket", "brand": "Moog" }
-        ],
-        "fitments": [
-          {
-            "versionKey": "chevrolet|corsa|joy-14",
-            "yearFrom": 2008, "yearTo": 2010,
-            "axle": "delantero", "side": "ambos",
-            "position": "Horquilla delantera",
-            "qualifiers": { "abs": false },
-            "notes": "SAMPLE — Corsa Joy"
-          },
-          {
-            "versionKey": "opel|astra|enjoy-18",
-            "yearFrom": 2005, "yearTo": 2007,
-            "axle": "delantero", "side": "ambos",
-            "position": "Horquilla delantera",
-            "qualifiers": {},
-            "notes": "SAMPLE — Astra Enjoy"
-          }
-        ]
-      },
-      {
-        "id": "moog-rk620053",
-        "brand": "Moog",
-        "skuCode": "RK620053",
-        "name": "Rótula de suspensión inferior",
-        "description": "SAMPLE — rótula Moog Camaro",
-        "categorySlug": "suspension-rotula",
-        "imageUrl": "https://cdn.example.mx/parts/sample/moog/rk620053.jpg",
-        "imageAlt": "Rótula Moog RK620053",
-        "interchangeGroup": "sample-rotula-camaro",
-        "equivalents": [
-          { "number": "RK620053", "kind": "aftermarket", "brand": "Moog" }
-        ],
-        "fitments": [
-          {
-            "versionKey": "chevrolet|camaro|ss-v8-62",
-            "yearFrom": 2016, "yearTo": 2018,
-            "axle": "delantero", "side": "ambos",
-            "position": "Inferior",
-            "qualifiers": { "abs": true },
-            "notes": "SAMPLE — Camaro SS"
-          }
-        ]
-      },
-      {
-        "id": "gonher-am-4412",
-        "brand": "Gonher",
-        "skuCode": "GON-AM-4412",
-        "name": "Amortiguador delantero",
-        "description": "SAMPLE — sin aplicaciones en datos de muestra",
-        "categorySlug": "suspension-amortiguador",
-        "imageUrl": null,
-        "imageAlt": "Amortiguador Gonher",
-        "interchangeGroup": null,
-        "equivalents": [],
-        "fitments": []
-      }
-    ]
-  }
-  </script>
-
   <script>
     (function () {
-      const catalog = JSON.parse(document.getElementById('sample-catalog-data').textContent);
-
       const selYear = document.getElementById('sel-year');
       const selMake = document.getElementById('sel-make');
       const selModel = document.getElementById('sel-model');
@@ -915,12 +787,7 @@
       const resultsCount = document.getElementById('results-count');
       const resultsTitle = document.getElementById('results-title');
 
-      function normalizePartNumber(raw) {
-        return String(raw || '')
-          .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-          .toUpperCase()
-          .replace(/[^A-Z0-9]/g, '');
-      }
+      let categoriesCache = [];
 
       function resetSelect(select, placeholder, disabled) {
         select.innerHTML = '';
@@ -942,102 +809,96 @@
         select.disabled = disabled || items.length === 0;
       }
 
-      function initYears() {
-        const years = new Set();
-        catalog.vehicles.forEach(function (v) {
-          v.years.forEach(function (y) { years.add(y); });
+      async function fetchVehicleLevel(level, params) {
+        const qs = new URLSearchParams({ level: level });
+        Object.keys(params || {}).forEach(function (key) {
+          if (params[key]) qs.set(key, params[key]);
         });
+        const res = await fetch('/api/vehicles?' + qs.toString(), {
+          headers: { Accept: 'application/json' }
+        });
+        const data = await res.json().catch(function () { return {}; });
+        if (!res.ok) {
+          throw new Error(data.error || 'No se pudo cargar ' + level);
+        }
+        return data.items || [];
+      }
+
+      async function loadYears() {
+        const years = await fetchVehicleLevel('years', {});
         fillSelect(
           selYear,
-          Array.from(years).sort(function (a, b) { return b - a; }),
-          function (y) { return String(y); },
-          function (y) { return String(y); },
+          years,
+          function (y) { return String(y.year); },
+          function (y) { return String(y.year); },
           false
         );
       }
 
-      function initPartTypes() {
+      async function loadCategories() {
+        categoriesCache = await fetchVehicleLevel('categories', {});
         fillSelect(
           selPartType,
-          catalog.partTypes,
-          function (p) { return p.slug; },
-          function (p) { return p.group + ' · ' + p.name; },
+          categoriesCache,
+          function (c) { return c.slug; },
+          function (c) {
+            return (c.group_name_es ? c.group_name_es + ' · ' : '') + c.name_es;
+          },
           false
         );
       }
 
-      function vehiclesForYear(year) {
-        return catalog.vehicles.filter(function (v) {
-          return v.years.indexOf(Number(year)) !== -1;
-        });
-      }
-
-      function onYearChange() {
+      async function onYearChange() {
         resetSelect(selMake, 'Marca', true);
         resetSelect(selModel, 'Modelo', true);
         resetSelect(selVersion, 'Versión / motor', true);
-        const year = selYear.value;
-        if (!year) return;
-
-        const vs = vehiclesForYear(year);
-        const makes = [];
-        const seen = new Set();
-        vs.forEach(function (v) {
-          if (!seen.has(v.makeSlug)) {
-            seen.add(v.makeSlug);
-            makes.push({ slug: v.makeSlug, name: v.make });
-          }
-        });
-        makes.sort(function (a, b) { return a.name.localeCompare(b.name, 'es'); });
-        fillSelect(selMake, makes, function (m) { return m.slug; }, function (m) { return m.name; }, false);
+        if (!selYear.value) return;
+        try {
+          const makes = await fetchVehicleLevel('makes', { year: selYear.value });
+          fillSelect(selMake, makes, function (m) { return m.slug; }, function (m) { return m.name; }, false);
+        } catch (err) {
+          console.error(err);
+        }
       }
 
-      function onMakeChange() {
+      async function onMakeChange() {
         resetSelect(selModel, 'Modelo', true);
         resetSelect(selVersion, 'Versión / motor', true);
-        const year = selYear.value;
-        const makeSlug = selMake.value;
-        if (!year || !makeSlug) return;
-
-        const vs = vehiclesForYear(year).filter(function (v) { return v.makeSlug === makeSlug; });
-        const models = [];
-        const seen = new Set();
-        vs.forEach(function (v) {
-          if (!seen.has(v.modelSlug)) {
-            seen.add(v.modelSlug);
-            models.push({ slug: v.modelSlug, name: v.model });
-          }
-        });
-        models.sort(function (a, b) { return a.name.localeCompare(b.name, 'es'); });
-        fillSelect(selModel, models, function (m) { return m.slug; }, function (m) { return m.name; }, false);
+        if (!selMake.value) return;
+        try {
+          const models = await fetchVehicleLevel('models', {
+            year: selYear.value || '',
+            make: selMake.value
+          });
+          fillSelect(selModel, models, function (m) { return m.slug; }, function (m) { return m.name; }, false);
+        } catch (err) {
+          console.error(err);
+        }
       }
 
-      function onModelChange() {
+      async function onModelChange() {
         resetSelect(selVersion, 'Versión / motor', true);
-        const year = selYear.value;
-        const makeSlug = selMake.value;
-        const modelSlug = selModel.value;
-        if (!year || !makeSlug || !modelSlug) return;
-
-        const vs = vehiclesForYear(year).filter(function (v) {
-          return v.makeSlug === makeSlug && v.modelSlug === modelSlug;
-        });
-        fillSelect(
-          selVersion,
-          vs,
-          function (v) { return v.versionKey; },
-          function (v) { return v.displayName + ' — ' + v.engineDesc; },
-          false
-        );
-      }
-
-      function parseVersionKey(versionKey) {
-        const parts = String(versionKey || '').split('|');
-        return {
-          make: parts[0] || '',
-          model: parts[1] || '',
-          version: parts[2] || ''
-        };
+        if (!selMake.value || !selModel.value) return;
+        try {
+          const versions = await fetchVehicleLevel('versions', {
+            year: selYear.value || '',
+            make: selMake.value,
+            model: selModel.value
+          });
+          fillSelect(
+            selVersion,
+            versions,
+            function (v) { return v.slug; },
+            function (v) {
+              const bits = [v.display_name];
+              if (v.engine_desc) bits.push(v.engine_desc);
+              return bits.join(' — ');
+            },
+            false
+          );
+        } catch (err) {
+          console.error(err);
+        }
       }
 
       function formatFitmentsApi(fitments) {
@@ -1195,13 +1056,18 @@
 
       function buildCategoryGrid() {
         const grid = document.getElementById('category-grid');
-        catalog.partTypes.forEach(function (pt) {
+        grid.innerHTML = '';
+        const popular = ['amortiguador', 'rotula', 'buje', 'horquilla', 'resorte', 'maza-de-rueda', 'brazo-auxiliar'];
+        const tiles = popular.map(function (slug) {
+          return categoriesCache.find(function (c) { return c.slug === slug; });
+        }).filter(Boolean);
+        tiles.forEach(function (pt) {
           const a = document.createElement('a');
           a.className = 'cat-tile';
           a.href = '#buscar';
           a.innerHTML = '<strong></strong><span></span>';
-          a.querySelector('strong').textContent = pt.name;
-          a.querySelector('span').textContent = pt.group;
+          a.querySelector('strong').textContent = pt.name_es;
+          a.querySelector('span').textContent = pt.group_name_es || '';
           a.addEventListener('click', function () {
             selPartType.value = pt.slug;
             document.getElementById('buscar').scrollIntoView({ behavior: 'smooth' });
@@ -1216,18 +1082,17 @@
 
       document.getElementById('vehicle-search-form').addEventListener('submit', function (e) {
         e.preventDefault();
-        const vk = parseVersionKey(selVersion.value);
-        const pt = catalog.partTypes.find(function (p) { return p.slug === selPartType.value; });
+        const pt = categoriesCache.find(function (p) { return p.slug === selPartType.value; });
         runSearch({
           year: selYear.value,
-          make: vk.make,
-          model: vk.model,
-          version: vk.version,
+          make: selMake.value,
+          model: selModel.value,
+          version: selVersion.value,
           category: selPartType.value
         }, {
           title: 'Resultados por vehículo',
           emptyMessage: 'No encontramos piezas para ese vehículo y categoría' +
-            (pt ? ' (' + pt.name + ')' : '') + '. Prueba la búsqueda por número o texto libre.'
+            (pt ? ' (' + pt.name_es + ')' : '') + '. Prueba la búsqueda por número o texto libre.'
         });
       });
 
@@ -1243,24 +1108,55 @@
 
       document.getElementById('btn-clear-vehicle').addEventListener('click', function () {
         selYear.value = '';
-        onYearChange();
         selPartType.value = '';
+        resetSelect(selMake, 'Marca', true);
+        resetSelect(selModel, 'Modelo', true);
+        resetSelect(selVersion, 'Versión / motor', true);
         showResults([], {
           emptyMessage: 'Selecciona vehículo y tipo de pieza, o busca por número de parte.'
         });
       });
 
-      initYears();
-      initPartTypes();
-      buildCategoryGrid();
+      async function bootstrap() {
+        resetSelect(selYear, 'Cargando años…', true);
+        resetSelect(selPartType, 'Cargando categorías…', true);
+        try {
+          await Promise.all([loadYears(), loadCategories()]);
+          buildCategoryGrid();
+        } catch (err) {
+          resetSelect(selYear, 'Error al cargar años', true);
+          resetSelect(selPartType, 'Error al cargar categorías', true);
+          console.error(err);
+          return;
+        }
 
-      if (location.hash === '#demo' || new URLSearchParams(location.search).has('demo')) {
-        document.getElementById('inp-part-number').value = '1209003';
-        runSearch({ q: '1209003' }, {
-          title: 'Resultados por búsqueda',
+        if (location.hash === '#demo' || new URLSearchParams(location.search).has('demo')) {
+          await applyDemoVehicleSearch();
+        }
+      }
+
+      async function applyDemoVehicleSearch() {
+        selYear.value = '2010';
+        await onYearChange();
+        selMake.value = 'acura';
+        await onMakeChange();
+        selModel.value = 'tl';
+        await onModelChange();
+        selVersion.value = 'base';
+        selPartType.value = 'amortiguador';
+        runSearch({
+          year: '2010',
+          make: 'acura',
+          model: 'tl',
+          version: 'base',
+          category: 'amortiguador'
+        }, {
+          title: 'Resultados por vehículo',
           emptyMessage: 'Sin resultados.'
         });
       }
+
+      bootstrap();
     })();
   </script>
 </body>
